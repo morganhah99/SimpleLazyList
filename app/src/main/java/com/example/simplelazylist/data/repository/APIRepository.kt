@@ -7,5 +7,5 @@ interface APIRepository {
 
     suspend fun getDogImages(): DogImageModel
 
-    //suspend fun getDogFacts(): DogFactModel
+    suspend fun getDogFacts(): DogFactModel
 }
