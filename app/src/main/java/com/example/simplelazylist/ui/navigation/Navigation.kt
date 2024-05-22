@@ -18,7 +18,7 @@ fun Navigation() {
         }
 
         composable(route = Screen.RandomDogImageScreen.route) {
-            RandomDogImage()
+            RandomDogImage(navController)
         }
     }
 
