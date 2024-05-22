@@ -34,7 +34,7 @@ fun DogImageList(navController: NavController, viewModel: SimpleListViewModel = 
             items(messages) { imageUrl ->
                 imageUrl?.let {
                     ItemCard(it) {
-                        navController.navigate(Screen.DogFactScreen.route)
+                        navController.navigate(Screen.RandomDogImageScreen.route)
                     }
                 }
             }
