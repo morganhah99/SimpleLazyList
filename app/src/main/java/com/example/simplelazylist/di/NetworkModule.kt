@@ -33,7 +33,7 @@ class APIModule {
             .build()
 
         return Retrofit.Builder()
-            .baseUrl(APIDetails.BASE_URL)
+            .baseUrl(APIDetails.DOG_IMAGE_BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(gsonConverterFactory)
             .build()

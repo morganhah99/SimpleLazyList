@@ -3,6 +3,7 @@ package com.example.simplelazylist
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,16 +13,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.example.simplelazylist.ui.navigation.Navigation
+import com.example.simplelazylist.ui.navigation.Screen
 import com.example.simplelazylist.ui.theme.SimpleLazyListTheme
 import com.example.simplelazylist.ui.viewmodel.SimpleListViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +38,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SimpleLazyListTheme {
-                SimpleList()
+                Navigation()
             }
         }
     }
@@ -41,7 +46,7 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun SimpleList(viewModel: SimpleListViewModel = hiltViewModel()) {
+fun DogImageList(navController: NavController, viewModel: SimpleListViewModel = hiltViewModel()) {
     val dogImageModel by viewModel.dogImageList.collectAsState()
 
     LazyColumn(
@@ -50,7 +55,11 @@ fun SimpleList(viewModel: SimpleListViewModel = hiltViewModel()) {
     ) {
         dogImageModel.listOfDogs?.let { messages ->
             items(messages) { imageUrl ->
-                imageUrl?.let { ItemCard(it) }
+                imageUrl?.let {
+                    ItemCard(it) {
+                        navController.navigate(Screen.DogFactScreen.route)
+                    }
+                }
             }
         }
     }
@@ -58,11 +67,12 @@ fun SimpleList(viewModel: SimpleListViewModel = hiltViewModel()) {
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun ItemCard(imageUrl: String) {
+fun ItemCard(imageUrl: String, function: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp)
+            .clickable(onClick = function),
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             GlideImage(
@@ -82,10 +92,15 @@ fun ItemCard(imageUrl: String) {
     }
 }
 
-@Preview(showBackground = true, widthDp = 320, heightDp = 480)
 @Composable
-fun PreviewItemCard() {
-    ItemCard(imageUrl = "https:\\/\\/images.dog.ceo\\/breeds\\/cotondetulear\\/100_2397.jpg\"")
+fun DogFact() {
+    Text(text = "Hello world")
 }
+
+//@Preview(showBackground = true, widthDp = 320, heightDp = 480)
+//@Composable
+//fun PreviewItemCard() {
+//    ItemCard(imageUrl = "https:\\/\\/images.dog.ceo\\/breeds\\/cotondetulear\\/100_2397.jpg\"")
+//}
 
 

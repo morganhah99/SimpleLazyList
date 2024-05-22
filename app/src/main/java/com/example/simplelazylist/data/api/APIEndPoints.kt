@@ -5,7 +5,7 @@ import retrofit2.http.GET
 
 interface APIEndPoints {
 
-    @GET(APIDetails.END_POINT)
+    @GET(APIDetails.DOG_IMAGE_END_POINT)
     suspend fun getDogImages(): DogImageModel
 
 }
